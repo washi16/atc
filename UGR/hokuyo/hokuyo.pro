@@ -16,14 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     hokuyo_class/hokuyo.cpp \
     dados/dados.cpp \
-    ponto/ponto.cpp \
-    Timer/timer.cpp
+    ponto/ponto.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     hokuyo_class/hokuyo.h \
     dados/dados.h \
     ponto/ponto.h \
-    Timer/timer.h
+    mainwindow.h
 
 FORMS    += mainwindow.ui
 

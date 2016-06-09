@@ -6,22 +6,40 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>740</width>
-    <height>613</height>
+    <width>682</width>
+    <height>614</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>682</width>
+    <height>614</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>682</width>
+    <height>614</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Lidar</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>120</x>
       <y>0</y>
       <width>550</width>
       <height>550</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -29,40 +47,189 @@
     <property name="lineWidth">
      <number>3</number>
     </property>
-    <property name="backgroundBrush">
-     <brush brushstyle="SolidPattern">
-      <color alpha="255">
-       <red>0</red>
-       <green>0</green>
-       <blue>0</blue>
-      </color>
-     </brush>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="interactive">
+     <bool>true</bool>
+    </property>
+    <property name="renderHints">
+     <set>QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Background">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>90</y>
+      <x>10</x>
+      <y>10</y>
       <width>99</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Background</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="Pause">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>60</y>
+      <x>10</x>
+      <y>130</y>
       <width>97</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>CheckBox</string>
+     <string>Pause</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QSlider" name="v_multi">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>380</y>
+      <width>29</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>20</number>
+    </property>
+    <property name="singleStep">
+     <number>5</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::TicksBelow</enum>
+    </property>
+    <property name="tickInterval">
+     <number>5</number>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="Layser">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>97</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Layser</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>99</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save to File</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="Disable_0">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>97</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Disable '0'</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="Guide">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>97</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Guide Lines</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save_image">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>99</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save Image</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>99</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Center Image</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="scale_1">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>280</y>
+      <width>31</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+    <property name="shortcut">
+     <string>+, +</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="scale_2">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>310</y>
+      <width>31</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+    <property name="shortcut">
+     <string>-, -</string>
     </property>
    </widget>
   </widget>
@@ -71,10 +238,20 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>740</width>
+     <width>682</width>
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionSave_to_File"/>
+    <addaction name="actionSave_Image"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -85,8 +262,41 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Esc</string>
+   </property>
+  </action>
+  <action name="actionSave_to_File">
+   <property name="text">
+    <string>Save to File</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionSave_Image">
+   <property name="text">
+    <string>Save Image</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>v_multi</tabstop>
+  <tabstop>Background</tabstop>
+  <tabstop>save</tabstop>
+  <tabstop>Pause</tabstop>
+  <tabstop>Layser</tabstop>
+  <tabstop>Disable_0</tabstop>
+  <tabstop>graphicsView</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
