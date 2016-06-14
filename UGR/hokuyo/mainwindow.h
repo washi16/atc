@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include "dados/dados.h"
 #include "ponto/ponto.h"
+#include "QColorDialog"
 
 
 
@@ -28,15 +29,8 @@ public:
 
 private slots:
     void on_Background_clicked();
+
     void timer_slot(void);
-
-    void on_save_clicked();
-
-    void on_Pause_clicked();
-
-    void on_actionSave_to_file_triggered();
-
-    void on_save_image_clicked();
 
     void on_pushButton_clicked();
 
@@ -48,6 +42,18 @@ private slots:
 
     void on_actionSave_Image_triggered();
 
+    void on_actionBackground_Color_1_triggered();
+
+    void on_actionBackground_Color_2_triggered();
+
+    void on_actionLayser_Color_triggered();
+
+    void on_actionForms_Color_triggered();
+
+    void on_actionExit_triggered();
+
+    void on_actionDefault_Colors_triggered();
+
 private:
     int multi;
     Ui::MainWindow *ui;
@@ -56,10 +62,12 @@ private:
     QGraphicsScene *s_viewer;
     QGraphicsLineItem *line;
     QBrush *backgroung_B;
-    QPen *lines_P;
-    QPen *greenP;
+    QPen *Glines_P;
+    QPen *formsP;
     QPen *redP;
-    QPen *blueP;
+    QPen *linesP;
+    QColor *backbgrond_color1;
+    QColor *backbgrond_color2;
 
     void draw_frame(void);
     void draw_frame_w_0(void);

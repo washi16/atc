@@ -7,8 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->save->hide();
-    ui->save_image->hide();
     dados_f=new dados;
     s_viewer =new QGraphicsScene(this);
     s_viewer->setSceneRect(0,0,501,501);
@@ -18,14 +16,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(_timer,SIGNAL(timeout()),this,SLOT(timer_slot()));
     _timer->start(75);
     s_viewer->setBackgroundBrush(QBrush(Qt::black));
-    backgroung_B=new QBrush (Qt::black);
-    lines_P=new QPen (Qt::white);
-    greenP=new QPen (Qt::green);
-    blueP=new QPen (Qt::blue);
+    backbgrond_color1=new QColor(Qt::black);
+    backbgrond_color2=new QColor(Qt::white);
+    backgroung_B=new QBrush (*backbgrond_color1);
+    Glines_P=new QPen (Qt::white);
+    formsP=new QPen (Qt::green);
+    linesP=new QPen (Qt::blue);
     redP=new QPen (Qt::red);
-    greenP->setWidth(2);
+    formsP->setWidth(2);
     redP->setWidth(4);
-    //lines_P->setStyle(Qt::DashDotDotLine);
+    //Glines_P->setStyle(Qt::DashDotDotLine);
     multi=10;
 
 
@@ -43,19 +43,19 @@ MainWindow::~MainWindow()
 void MainWindow::draw_frame(void)
 {
     multi=ui->v_multi->value();
-    vector<ponto<long int>> pontos =dados_f->get_pontos();
+    vector<ponto<long int>> pontos =dados_f->get_pontos((char)ui->Filter->isChecked());
 
 
-    s_viewer->addLine(zero,zero,zero+(pontos[0].get_X()/multi),zero+(pontos[0].get_Y()/(-1*multi)),*greenP);
-    for(int i=0;i<(pontos.size()-2);i++)
+    s_viewer->addLine(zero,zero,zero+(pontos[0].get_X()/multi),zero+(pontos[0].get_Y()/(-1*multi)),*formsP);
+    for(unsigned int i=0;i<(pontos.size()-2);i++)
     {
         //cout<<"Angulos:"<<dados_f->m_vecAngulos[i]<<"X:"<<pontos[i].get_X()<<" Y:"<<pontos[i].get_Y()<<endl;
         if(ui->Layser->isChecked())
-        s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*blueP);
-        s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*greenP);
+        s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*linesP);
+        s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*formsP);
 
     }
-    s_viewer->addLine(zero,zero,zero+(pontos[pontos.size()-2].get_X()/multi),zero+(pontos[pontos.size()-2].get_Y())/(-1*multi),*greenP);
+    s_viewer->addLine(zero,zero,zero+(pontos[pontos.size()-2].get_X()/multi),zero+(pontos[pontos.size()-2].get_Y())/(-1*multi),*formsP);
     s_viewer->addLine(zero,zero,zero,zero,*redP);
 
 }
@@ -64,16 +64,16 @@ void MainWindow::draw_frame(void)
 
 void MainWindow::on_Background_clicked()
 {
-    if(backgroung_B->color()==(Qt::black))
+    if(backgroung_B->color()==*backbgrond_color1)
     {
-        backgroung_B->setColor(Qt::white);
-        lines_P->setColor(Qt::black);
+        backgroung_B->setColor(*backbgrond_color2);
+        Glines_P->setColor(*backbgrond_color1);
         s_viewer->setBackgroundBrush(*backgroung_B);
     }
     else
     {
-        backgroung_B->setColor(Qt::black);
-        lines_P->setColor(Qt::white);
+        backgroung_B->setColor(*backbgrond_color1);
+        Glines_P->setColor(*backbgrond_color2);
         s_viewer->setBackgroundBrush(*backgroung_B);
     }
 
@@ -100,47 +100,20 @@ void MainWindow::draw_Glines()
 {
     for(int i=1;i<=10000;i+=500)
     {
-    s_viewer->addEllipse(zero-i/multi/2,zero-(i/multi)/2,i/multi,i/multi,*lines_P);
+    s_viewer->addEllipse(zero-i/multi/2,zero-(i/multi)/2,i/multi,i/multi,*Glines_P);
     }
 }
 
-
-void MainWindow::on_save_clicked()
-{
-    QMessageBox msg;
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),"/home/carlos/Desktop/untitled.csv",tr("Calc cells (*.csv *.xls)"));
-    if(dados_f->save_frame(fileName))
-        msg.setText("Save Complete!");
-    else
-        msg.setText("Save Aborted! Try Again!");
-        msg.show();
-        msg.exec();
-}
-
-
-void MainWindow::on_Pause_clicked()
-{
-    if(ui->Pause->isChecked())
-    {
-        ui->save->show();
-        ui->save_image->show();
-    }
-    else
-    {
-        ui->save->hide();
-        ui->save_image->hide();
-    }
-}
 
 void MainWindow::draw_frame_w_0()
 {
     int flag=0;
     long int x_old=0,y_old=0,x_next=0,y_next=0,x=0,y=0;
     multi=ui->v_multi->value();
-    vector<ponto<long int>> pontos =dados_f->get_pontos();
+    vector<ponto<long int>> pontos =dados_f->get_pontos((char)ui->Filter->isChecked());
 
-    s_viewer->addLine(zero,zero,zero+(pontos[0].get_X()/multi),zero+(pontos[0].get_Y()/(-1*multi)),*greenP);
-    for(int i=0;i<(pontos.size()-2);i++)
+    s_viewer->addLine(zero,zero,zero+(pontos[0].get_X()/multi),zero+(pontos[0].get_Y()/(-1*multi)),*formsP);
+    for(unsigned int i=0;i<(pontos.size()-2);i++)
     {
         x=pontos[i].get_X();
         y=pontos[i].get_Y();
@@ -148,9 +121,9 @@ void MainWindow::draw_frame_w_0()
         y_next=pontos[i+1].get_Y();
         if(!flag && (x && y) && (x_next && y_next) )
                 {
-                    s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*greenP);
+                    s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*formsP);
                     if(ui->Layser->isChecked())
-                    s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*blueP);
+                    s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*linesP);
                 }
         else if(!flag && (x && y) && (!x_next || !y_next))
                 {
@@ -161,16 +134,16 @@ void MainWindow::draw_frame_w_0()
         else if (flag && (x && y) && (x_next && y_next))
                 {
                  flag=0;
-                 s_viewer->addLine(zero+(x_old/multi),zero+(y_old/(-1*multi)),zero+(x/multi),zero+(y/(-1*multi)),*greenP);
-                 s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*greenP);
+                 s_viewer->addLine(zero+(x_old/multi),zero+(y_old/(-1*multi)),zero+(x/multi),zero+(y/(-1*multi)),*formsP);
+                 s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*formsP);
                  if(ui->Layser->isChecked())
-                 s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*blueP);
+                 s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*linesP);
                 }
         else if (flag && (x && y))
                 {
-                 s_viewer->addLine(zero+(x_old/multi),zero+(y_old/(-1*multi)),zero+(x/multi),zero+(y/(-1*multi)),*greenP);
+                 s_viewer->addLine(zero+(x_old/multi),zero+(y_old/(-1*multi)),zero+(x/multi),zero+(y/(-1*multi)),*formsP);
                  if(ui->Layser->isChecked())
-                 s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*blueP);
+                 s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*linesP);
                  x_old=x;
                  y_old=y;
                 }
@@ -178,41 +151,12 @@ void MainWindow::draw_frame_w_0()
         //cout<<"Angulos:"<<dados_f->m_vecAngulos[i]<<"X:"<<pontos[i].get_X()<<" Y:"<<pontos[i].get_Y()<<endl;
 
     }
-    s_viewer->addLine(zero,zero,zero+(pontos[pontos.size()-2].get_X()/multi),zero+(pontos[pontos.size()-2].get_Y())/(-1*multi),*greenP);
+    s_viewer->addLine(zero,zero,zero+(pontos[pontos.size()-2].get_X()/multi),zero+(pontos[pontos.size()-2].get_Y())/(-1*multi),*formsP);
     s_viewer->addLine(zero,zero,zero,zero,*redP);
 }
 
-void MainWindow::on_actionSave_to_file_triggered()
-{
-    on_save_clicked();
-}
 
-void MainWindow::on_save_image_clicked()
-{
-    /*
-    QGraphicsPixmapItem *pixmapitem=new QGraphicsPixmapItem;
-    QImage image=s_viewer->render();
-    image.save(&fileName);
 
-    QImage image;
-    QPainter painter(&image);
-    painter.setRenderHint(QPainter::Antialiasing);
-    s_viewer->render(&painter);
-    image.save("/home/carlos/image.png");
-    */
-    QMessageBox msg;
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Image"),"/home/carlos/Desktop/untitled.png",tr("Image Files (*.jpg *.jpeg *png)"));
-    s_viewer->clearSelection();
-    s_viewer->setSceneRect(s_viewer->itemsBoundingRect());
-    QImage image(s_viewer->sceneRect().size().toSize(),QImage::Format_ARGB32);
-    image.fill(Qt::transparent);
-
-    QPainter painter(&image);
-    s_viewer->render(&painter);
-    image.save(fileName);
-    msg.setText("Save Complete!");
-    msg.exec();
-}
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -221,22 +165,55 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_scale_1_clicked()
 {
-    ui->graphicsView->scale(0.5,0.5);
+    ui->graphicsView->scale(2,2);
 }
 
 void MainWindow::on_scale_2_clicked()
 {
-    ui->graphicsView->scale(2,2);
+    ui->graphicsView->scale(0.5,0.5);
 }
 
 void MainWindow::on_actionSave_to_File_triggered()
 {
-    on_save_clicked();
+        ui->Pause->setCheckState(Qt::Checked);
+        QMessageBox msg;
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),"/home/carlos/Desktop/untitled.csv",tr("Calc cells (*.csv *.xls)"));
+        if(dados_f->save_frame(fileName))
+            msg.setText("Save Complete!");
+        else
+            msg.setText("Save Aborted! Try Again!");
+            msg.show();
+            msg.exec();
+        ui->Pause->setCheckState(Qt::Unchecked);
 }
 
 void MainWindow::on_actionSave_Image_triggered()
 {
-    on_save_image_clicked();
+        ui->Pause->setCheckState(Qt::Checked);
+        /*
+        QGraphicsPixmapItem *pixmapitem=new QGraphicsPixmapItem;
+        QImage image=s_viewer->render();
+        image.save(&fileName);
+
+        QImage image;
+        QPainter painter(&image);
+        painter.setRenderHint(QPainter::Antialiasing);
+        s_viewer->render(&painter);
+        image.save("/home/carlos/image.png");
+        */
+        QMessageBox msg;
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save Image"),"/home/carlos/Desktop/untitled.png",tr("Image Files (*.jpg *.jpeg *png)"));
+        s_viewer->clearSelection();
+        s_viewer->setSceneRect(s_viewer->itemsBoundingRect());
+        QImage image(s_viewer->sceneRect().size().toSize(),QImage::Format_ARGB32);
+        image.fill(Qt::transparent);
+
+        QPainter painter(&image);
+        s_viewer->render(&painter);
+        image.save(fileName);
+        msg.setText("Save Complete!");
+        msg.exec();
+        ui->Pause->setCheckState(Qt::Unchecked);
 }
 
 
@@ -249,7 +226,7 @@ void MainWindow::draw_frame_w_0()
     vector<ponto<long int>> pontos =dados_f->get_pontos();
     s_viewer->clear();
     draw_Glines();
-    s_viewer->addLine(zero,zero,zero+(pontos[0].get_X()/multi),zero+(pontos[0].get_Y()/(-1*multi)),*greenP);
+    s_viewer->addLine(zero,zero,zero+(pontos[0].get_X()/multi),zero+(pontos[0].get_Y()/(-1*multi)),*formsP);
     for(int i=0;i<(pontos.size()-2);i++)
     {
         x=pontos[i].get_X();
@@ -258,9 +235,9 @@ void MainWindow::draw_frame_w_0()
         y_next=pontos[i+1].get_Y();
         if(!flag && (x||y) && (x_next||y_next) )
                 {
-                    s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*greenP);
+                    s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*formsP);
                     if(ui->Layser->isChecked())
-                    s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*blueP);
+                    s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*linesP);
                 }
         else if(!flag && (x || y) && !x_next && !y_next)
                 {
@@ -271,22 +248,65 @@ void MainWindow::draw_frame_w_0()
         else if (flag && (x||y) && (x_next||y_next))
                 {
                  flag=0;
-                 s_viewer->addLine(zero+(x_old/multi),zero+(y_old/(-1*multi)),zero+(x/multi),zero+(y/(-1*multi)),*greenP);
-                 s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*greenP);
+                 s_viewer->addLine(zero+(x_old/multi),zero+(y_old/(-1*multi)),zero+(x/multi),zero+(y/(-1*multi)),*formsP);
+                 s_viewer->addLine(zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),zero+(pontos[i+1].get_X()/multi),zero+(pontos[i+1].get_Y()/(-1*multi)),*formsP);
                  if(ui->Layser->isChecked())
-                 s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*blueP);
+                 s_viewer->addLine(zero,zero,zero+(pontos[i].get_X()/multi),zero+(pontos[i].get_Y()/(-1*multi)),*linesP);
                 }
         else if (flag && (x||y) && !x_next && !y_next)
                 {
-                 s_viewer->addLine(zero+(x_old/multi),zero+(y_old/(-1*multi)),zero+(x/multi),zero+(y/(-1*multi)),*greenP);
+                 s_viewer->addLine(zero+(x_old/multi),zero+(y_old/(-1*multi)),zero+(x/multi),zero+(y/(-1*multi)),*formsP);
                  x_old=x;
                  y_old=y;
                 }
         //cout<<"Angulos:"<<dados_f->m_vecAngulos[i]<<"X:"<<pontos[i].get_X()<<" Y:"<<pontos[i].get_Y()<<endl;
 
     }
-    s_viewer->addLine(zero,zero,zero+(pontos[pontos.size()-2].get_X()/multi),zero+(pontos[pontos.size()-2].get_Y())/(-1*multi),*greenP);
+    s_viewer->addLine(zero,zero,zero+(pontos[pontos.size()-2].get_X()/multi),zero+(pontos[pontos.size()-2].get_Y())/(-1*multi),*formsP);
     s_viewer->addLine(zero,zero,zero,zero,*redP);
 }
 
  */
+
+
+void MainWindow::on_actionBackground_Color_1_triggered()
+{   ui->Pause->setCheckState(Qt::Checked);
+    *backbgrond_color1=QColorDialog::getColor(*backbgrond_color1,this);
+    ui->graphicsView->setBackgroundBrush(QBrush (*backbgrond_color1));
+    ui->Pause->setCheckState(Qt::Unchecked);
+}
+
+void MainWindow::on_actionBackground_Color_2_triggered()
+{
+    ui->Pause->setCheckState(Qt::Checked);
+    *backbgrond_color2=QColorDialog::getColor(*backbgrond_color2,this);
+    ui->Pause->setCheckState(Qt::Unchecked);
+}
+
+void MainWindow::on_actionLayser_Color_triggered()
+{
+    ui->Pause->setCheckState(Qt::Checked);
+    linesP->setColor(QColorDialog::getColor(linesP->color(),this));
+    ui->Pause->setCheckState(Qt::Unchecked);
+}
+
+void MainWindow::on_actionForms_Color_triggered()
+{
+    ui->Pause->setCheckState(Qt::Checked);
+    formsP->setColor(QColor (QColorDialog::getColor(formsP->color(),this)));
+    ui->Pause->setCheckState(Qt::Unchecked);
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    exit(0);
+}
+
+void MainWindow::on_actionDefault_Colors_triggered()
+{
+    *backbgrond_color1=Qt::black;
+    *backbgrond_color2=Qt::white;
+    linesP->setColor(Qt::blue);
+    formsP->setColor(Qt::green);
+    ui->graphicsView->setBackgroundBrush(QBrush (*backbgrond_color1));
+}

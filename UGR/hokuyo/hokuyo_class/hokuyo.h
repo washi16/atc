@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <QMessageBox>
 
-#define _ANGLES_ 683
+#define _ANGLES_ 682
 #define SUB_0 83
 #define ERASE 43
 #define LAYSER_DISTANCE 0.352
