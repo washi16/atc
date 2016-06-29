@@ -856,6 +856,9 @@ moc_mainwindow.cpp: ../../../../Qt/5.6/gcc_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/QFileDialog \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../../../Qt/5.6/gcc_64/include/QtCore/QTextStream \
+		../../../../Qt/5.6/gcc_64/include/QtCore/QDateTime \
+		../../../../Qt/5.6/gcc_64/include/QtWidgets/QColorDialog \
+		../../../../Qt/5.6/gcc_64/include/QtWidgets/qcolordialog.h \
 		../hokuyo/mainwindow.h
 	/home/carlos/Qt/5.6/gcc_64/bin/moc $(DEFINES) -I/home/carlos/Qt/5.6/gcc_64/mkspecs/linux-g++ -I/home/carlos/Desktop/ATC2/UGR/hokuyo -I/home/carlos/Qt/5.6/gcc_64/include -I/home/carlos/Qt/5.6/gcc_64/include/QtWidgets -I/home/carlos/Qt/5.6/gcc_64/include/QtGui -I/home/carlos/Qt/5.6/gcc_64/include/QtCore -I. ../hokuyo/mainwindow.h -o moc_mainwindow.cpp
 
@@ -1203,6 +1206,9 @@ main.o: ../hokuyo/main.cpp ../hokuyo/mainwindow.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/QFileDialog \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../../../Qt/5.6/gcc_64/include/QtCore/QTextStream \
+		../../../../Qt/5.6/gcc_64/include/QtCore/QDateTime \
+		../../../../Qt/5.6/gcc_64/include/QtWidgets/QColorDialog \
+		../../../../Qt/5.6/gcc_64/include/QtWidgets/qcolordialog.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/QApplication \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qapplication.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qdesktopwidget.h
@@ -1354,11 +1360,14 @@ mainwindow.o: ../hokuyo/mainwindow.cpp ui_mainwindow.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qtabbar.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../../Qt/5.6/gcc_64/include/QtWidgets/QLabel \
+		../../../../Qt/5.6/gcc_64/include/QtWidgets/qlabel.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/QMainWindow \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qmainwindow.h \
+		../../../../Qt/5.6/gcc_64/include/QtWidgets/QMenu \
+		../../../../Qt/5.6/gcc_64/include/QtWidgets/qmenu.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/QMenuBar \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qmenubar.h \
-		../../../../Qt/5.6/gcc_64/include/QtWidgets/qmenu.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/QPushButton \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../../../Qt/5.6/gcc_64/include/QtWidgets/QSlider \
@@ -1596,7 +1605,10 @@ dados.o: ../hokuyo/dados/dados.cpp ../hokuyo/dados/dados.h \
 		../../../../Qt/5.6/gcc_64/include/QtCore/qdir.h \
 		../../../../Qt/5.6/gcc_64/include/QtCore/qfileinfo.h \
 		../../../../Qt/5.6/gcc_64/include/QtCore/QTextStream \
-		../../../../Qt/5.6/gcc_64/include/QtCore/QDebug
+		../../../../Qt/5.6/gcc_64/include/QtCore/QDateTime \
+		../../../../Qt/5.6/gcc_64/include/QtCore/qdatetime.h \
+		../../../../Qt/5.6/gcc_64/include/QtCore/QDebug \
+		../../../../Qt/5.6/gcc_64/include/QtCore/QMutex
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dados.o ../hokuyo/dados/dados.cpp
 
 ponto.o: ../hokuyo/ponto/ponto.cpp ../hokuyo/ponto/ponto.h

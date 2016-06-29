@@ -37,7 +37,7 @@ vector<ponto<long int>> dados::get_pontos(char filtro)
     xls.open("tabela.xls");
 
     long int Distancia;
-    for(int i=0;i<m_vecAngulos.size()-1;i++)
+    for(unsigned int i=0;i<m_vecAngulos.size()-1;i++)
     {
         Distancia=m_vecDistancias[i];
         if(filtro)
@@ -53,20 +53,49 @@ vector<ponto<long int>> dados::get_pontos(char filtro)
     return pontos;
 }
 
-vector<ponto<long int>> dados::get_pontos_log(char filtro)
+vector<ponto<long int>> dados::get_pontos_log(char filtro, QStringList strlist)
 {
 
+    ofstream xls;
+    xls.open("tabela2.xls");
+    vector<ponto<long int>> pontos;
+    long int Distancia;
+    for(int i=0;i<strlist.size()-1;i++)
+    {
+        Distancia=(long int)strlist[i].toInt();
+        if(filtro)
+            if(Distancia>Max_Dist)
+                Distancia=0;
+        long int x=(long int)Distancia*cos(m_vecAngulos[i]* PI/180),y=(long int)Distancia*sin(m_vecAngulos[i]* PI/180);
+        //qDebug()<<"aqui:"<<i;
+        pontos.push_back(ponto<long int>(x,y));
+        xls<<Distancia<<"\t"<<m_vecAngulos[i]<<"\t"<<x<<"\t"<<y<<endl;
+    }
+    xls.close();
+    return pontos;
+
+    /*
+    for (int i = 0; i < strlist.size()-2;i++)
+    {
+        qDebug()<<i<<" : "<<strlist[i].toInt();
+    }
+    vector<ponto<long int>> pontos;
+    pontos.push_back(ponto<long int>(1,2));
+    qDebug()<<"fim";
+    return pontos;
+    */
 }
 
 bool dados::save_frame(QString fileName)
 {
+
     QFile csv(fileName);
     if(!csv.open(QIODevice::WriteOnly))
     return false;
     QTextStream file_out(&csv);
 
     file_out<<"Distancias"<<"\t"<<"Angulos"<<"\t"<<endl;
-    for(int i=0;i<m_vecDistancias.size();i++)
+    for(unsigned int i=0;i<m_vecDistancias.size();i++)
     {
         file_out<<m_vecDistancias[i]<<"\t"<<m_vecAngulos[i]<<endl;
     }

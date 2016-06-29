@@ -11,6 +11,7 @@
 #include <fstream>
 
 #define PI 3.14159265
+#define Max_Dist 4000
 
 using namespace std;
 
@@ -20,18 +21,14 @@ public:
     dados();
     ~dados();
     vector<ponto<long int>> get_pontos(char filtro);
-    vector<ponto<long int>> get_pontos_log(char filtro);
+    vector<ponto<long int>> get_pontos_log(char filtro,QStringList strlist);
     bool save_frame(QString fileName);
 private:
     QTextStream *stream_out;
     QFile *f_write;
-    QFile *f_read;
     hokuyo *Lidar;
     vector<double> m_vecAngulos;
     vector<long int> m_vecDistancias;
-
-
-
 
 };
 

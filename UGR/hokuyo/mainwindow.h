@@ -14,6 +14,8 @@
 
 
 #define zero 250
+#define Multi 10
+#define RectSize 501
 
 namespace Ui {
 class MainWindow;
@@ -28,11 +30,10 @@ public:
     ~MainWindow();
 
 private slots:
+
     void on_Background_clicked();
 
     void timer_slot(void);
-
-    void on_pushButton_clicked();
 
     void on_scale_1_clicked();
 
@@ -46,7 +47,7 @@ private slots:
 
     void on_actionBackground_Color_2_triggered();
 
-    void on_actionLayser_Color_triggered();
+    void on_actionLaser_Color_triggered();
 
     void on_actionForms_Color_triggered();
 
@@ -54,8 +55,22 @@ private slots:
 
     void on_actionDefault_Colors_triggered();
 
+    void on_actionOpen_Log_triggered();
+
+    void on_actionDelete_Logs_triggered();
+
+    void on_actionOpen_Logs_Folder_triggered();
+
+    void on_actionBackup_Logs_triggered();
+
+    void on_Stop_clicked();
+
+
 private:
+    char s_flag;
+    int zoom;
     int multi;
+    QFile *log_file;
     Ui::MainWindow *ui;
     QTimer *_timer;
     dados *dados_f;
@@ -68,10 +83,13 @@ private:
     QPen *linesP;
     QColor *backbgrond_color1;
     QColor *backbgrond_color2;
+    QTextStream *stream_in;
 
-    void draw_frame(void);
-    void draw_frame_w_0(void);
+
+    void draw_frame(vector<ponto<long int>> pontos);
+    void draw_frame_w_0(vector<ponto<long int>> pontos);
     void draw_Glines(void);
+    void read_log_file();
 
 };
 
